@@ -83,12 +83,54 @@ def deposit():
             deposit()
 
 
-def test():
-    newAmount = 600
-    updateAmount = (
-        "UPDATE USER SET totalAmount =? where accNumber = 678")
-    cursor.execute(updateAmount, [(newAmount)])
-    db.commit()
+def withdraw():
+    accNumber = raw_input("Insert account number to login: ")
+    findAcc = ("SELECT * FROM USER WHERE accNumber = ?")
+    cursor.execute(findAcc, [(accNumber)])
+
+    results = cursor.fetchall()
+
+    if results:
+        for i in results:
+            print('Welcome: ' + i[1])
+            transactionDate = raw_input("Insert date: ")
+            transactionNum = int(raw_input("Insert transaction number: "))
+            transactionAmount = int(raw_input("Insert withdraw amount: "))
+
+            newTran = '''INSERT INTO MONEY(transactionNum,transactionDate,transactionAmount)
+                VALUES ('%s', '%s', '%s') ''' % (transactionNum, transactionDate, transactionAmount)
+
+            cursor.execute(newTran)
+            db.commit()
+
+            accountAmount = (
+                "SELECT totalAmount FROM USER WHERE accNumber = ?")
+            cursor.execute(accountAmount, [(accNumber)])
+            currentAmount = cursor.fetchone()
+            oldAmount = currentAmount[0]
+
+            if oldAmount > transactionAmount:
+                newAmount = oldAmount - transactionAmount
+
+                updateAmount = (
+                    "UPDATE USER SET totalAmount =? WHERE accNumber = ?")
+                cursor.execute(updateAmount, [(newAmount), (accNumber)])
+                db.commit()
+
+                print("")
+                print("You have now: " + str(newAmount))
+            else:
+                print("")
+                print("You don't have enough money in your account to do that")
+                again = raw_input("Do you want to try again? (Y/N): ").upper()
+                if again != "N":
+                    withdraw()
+
+    else:
+        print("Account doesn't exist")
+        again = raw_input("Do you want to try again? (Y/N): ").upper()
+        if again != "N":
+            withdraw()
 
 
-deposit()
+withdraw()
