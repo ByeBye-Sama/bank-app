@@ -54,8 +54,8 @@ def deposit():
             transactionNum = int(raw_input("Insert transaction number: "))
             transactionAmount = int(raw_input("Insert deposit amount: "))
 
-            newTran = '''INSERT INTO MONEY(transactionNum,transactionDate,transactionAmount)
-                VALUES ('%s', '%s', '%s') ''' % (transactionNum, transactionDate, transactionAmount)
+            newTran = '''INSERT INTO MONEY(accNumber,transactionNum,transactionDate,transactionAmount)
+                VALUES ('%s', '%s', '%s', '%s') ''' % (accNumber, transactionNum, transactionDate, transactionAmount)
 
             cursor.execute(newTran)
             db.commit()
@@ -97,8 +97,8 @@ def withdraw():
             transactionNum = int(raw_input("Insert transaction number: "))
             transactionAmount = int(raw_input("Insert withdraw amount: "))
 
-            newTran = '''INSERT INTO MONEY(transactionNum,transactionDate,transactionAmount)
-                VALUES ('%s', '%s', '%s') ''' % (transactionNum, transactionDate, transactionAmount)
+            newTran = '''INSERT INTO MONEY(accNumber, transactionNum,transactionDate,transactionAmount)
+                VALUES ('%s', '%s', '%s', '%s') ''' % (accNumber, transactionNum, transactionDate, transactionAmount)
 
             cursor.execute(newTran)
             db.commit()
@@ -133,4 +133,28 @@ def withdraw():
             withdraw()
 
 
-withdraw()
+def checkMovements():
+    print("some")
+    accNumber = raw_input("Insert account number to check: ")
+    findAcc = ("SELECT * FROM USER WHERE accNumber = ?")
+    cursor.execute(findAcc, [(accNumber)])
+
+    results = cursor.fetchall()
+
+    if results:
+        for i in results:
+            print('Welcome: ' + i[1])
+            accountMovement = (
+                "SELECT * FROM MONEY WHERE accNumber = ?")
+            cursor.execute(accountMovement, [(accNumber)])
+            movements = cursor.fetchall()
+            print(movements)
+
+    else:
+        print("Account doesn't exist")
+        again = raw_input("Do you want to try again? (Y/N): ").upper()
+        if again != "N":
+            withdraw()
+
+
+checkMovements()
