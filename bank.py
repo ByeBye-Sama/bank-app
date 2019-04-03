@@ -2,6 +2,11 @@ import sqlite3
 import os
 import os.path
 import time
+from colorama import init
+init()
+from colorama import Fore, Back, Style
+
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "bank.db")
@@ -41,6 +46,11 @@ def newAccount():
 
 
 def deposit():
+
+    print("+{:-<100}+".format(""))
+    print("|{:^100}|".format("DEPOSIT FORM"))
+    print("+{:-<100}+".format(""))
+
     accNumber = raw_input("Insert account number to login: ")
     findAcc = ("SELECT * FROM USER WHERE accNumber = ?")
     cursor.execute(findAcc, [(accNumber)])
@@ -49,10 +59,16 @@ def deposit():
 
     if results:
         for i in results:
-            print('Welcome: ' + i[1])
-            transactionDate = raw_input("Insert date: ")
+            print("+{:-<100}+".format(""))
+            print("|{:^100}|".format('Welcome: ' + i[1]))
+            print("+{:-<100}+".format(""))
+
+            transactionDate = raw_input("Insert date with format (DD/MM/YY): ")
+            print("+{:-<100}+".format(""))
             transactionNum = int(raw_input("Insert transaction number: "))
+            print("+{:-<100}+".format(""))
             transactionAmount = int(raw_input("Insert deposit amount: "))
+            print("+{:-<100}+".format(""))
 
             newTran = '''INSERT INTO MONEY(accNumber,transactionNum,transactionDate,transactionAmount)
                 VALUES ('%s', '%s', '%s', '%s') ''' % (accNumber, transactionNum, transactionDate, transactionAmount)
@@ -73,15 +89,24 @@ def deposit():
             cursor.execute(updateAmount, [(newAmount), (accNumber)])
             db.commit()
 
-            print("")
-            print("You have now: " + str(newAmount))
+            print('\x1b[6;30;42m' + "|{:^100}|".format("SUCCESS")+'\x1b[0m')
+            print("+{:-<100}+".format(""))
+            print("|{:^100}|".format("You have now: " + str(newAmount)))
+            print("+{:-<100}+".format(""))
 
     else:
-        print("Account doesn't exist")
+        print("+{:-<100}+".format(""))
+        print('\x1b[0;37;41m' + "|{:^100}|".format("Account doesn't exist")+'\x1b[0m')
+        print("+{:-<100}+".format(""))
+        
         again = raw_input("Do you want to try again? (Y/N): ").upper()
+        
         if again != "N":
             deposit()
-
+        else:
+            print("+{:-<100}+".format(""))
+            print("|{:^100}|".format("GOOD BYE"))
+            print("+{:-<100}+".format(""))
 
 def withdraw():
     accNumber = raw_input("Insert account number to login: ")
@@ -157,4 +182,4 @@ def checkMovements():
             withdraw()
 
 
-checkMovements()
+deposit()
