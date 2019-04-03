@@ -246,4 +246,4 @@ def checkMovements():
             print("+{:-<100}+".format(""))
 
 
-checkMovements()
+newAccount()
