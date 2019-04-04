@@ -7,8 +7,8 @@ Usign python v.2.7.16 and sqlite
 
 ## Functions:
 
-* Creater users
+* Create users (on db)
 * Verification login in operations
-* Deposits (update on db)
-* Withdraws (update on db)
-* Bank movements
+* Deposits (with update on db)
+* Withdraws (with update on db)
+* Bank movements print
