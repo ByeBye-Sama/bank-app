@@ -13,25 +13,39 @@ db = sqlite3.connect(db_path)
 cursor = db.cursor()
 asw = ""
 
-def makeReservation():
 
-    print("+{:-<100}+".format(""))
-    print("|{:^100}|".format("MAKE A RESERVATION"))
-    print("+{:-<100}+".format(""))
+class Reservation:
 
-    idCustomer = int(input("Insert customer number: "))
-    print("+{:-<100}+".format(""))
-    idBarber = int(input("Insert barber number: "))
-    print("+{:-<100}+".format(""))
-    idServices = int(input("Insert services number: "))
-    print("+{:-<100}+".format(""))
-    reservationDate = input("Insert date: ")
-    print("+{:-<100}+".format(""))
-    observation = input("Insert observations: ")
+    idCustomer = 0
+    idBarber = 0
+    idService = 0
+    reservationDate = ""
+    observation = ""
 
-    newRev = '''INSERT INTO USER(idCustomer,idBarber,idService,reservationDate,observation)
-                VALUES ('%s', '%s', '%s', '%s', '%s') ''' % (idCustomer, idBarber, idServices, reservationDate, observation)
+    def __init__(self, idCustomer, idBarber, idService, reservationDate, observation):
+        try:
+            cursor.execute("INSERT INTO RESERVATION(idCustomer, idBarber, idService, reservationDate, observation) VALUES (" + str(
+                idCustomer) + "," + str(idBarber) + "," + str(idService) + "," + "'" + reservationDate + "'," + "'" + observation + "')")
+            db.commit()
+            print("Your reservation code is: ", cursor.lastrowid)
+        except sqlite3.IntegrityError as e:
+            print('sqlite error', e.args[0])
 
-    cursor.execute(newRev)
-    db.commit()
-    db.close()
+    def makeReservation(self):
+
+        print("+{:-<100}+".format(""))
+        print("|{:^100}|".format("MAKE A RESERVATION"))
+        print("+{:-<100}+".format(""))
+
+        idCustomer = int(input("Insert customer number: "))
+        print("+{:-<100}+".format(""))
+        idBarber = int(input("Insert barber number: "))
+        print("+{:-<100}+".format(""))
+        idService = int(input("Insert services number: "))
+        print("+{:-<100}+".format(""))
+        reservationDate = input("Insert reservation date: ")
+        print("+{:-<100}+".format(""))
+        observation = input("Insert observations: ")
+
+        Reservation.__init__('', idCustomer, idBarber,
+                             idService, reservationDate, observation)

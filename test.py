@@ -2,10 +2,14 @@
 
 barber.barberList("")"""
 
-from customer import Customer
+"""from customer import Customer
 
-Customer.customerList("")
+Customer.customerList("")"""
 
 """from services import Services
 
 Services.serviceList("")"""
+
+from reservation import Reservation
+
+Reservation.makeReservation("")
