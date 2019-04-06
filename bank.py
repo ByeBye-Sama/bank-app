@@ -1,3 +1,4 @@
+from random import randint
 from colorama import Fore, Back, Style
 import sqlite3
 import os
@@ -72,7 +73,8 @@ class Bank():
 
                 transactionDate = input("Insert date with format (DD/MM/YY): ")
                 print("+{:-<100}+".format(""))
-                transactionNum = int(input("Insert transaction number: "))
+                transactionNum = randint(1000, 9999)
+                print("Your transacion number is: " + str(transactionNum))
                 print("+{:-<100}+".format(""))
                 transactionAmount = int(input("Insert deposit amount: "))
                 print("+{:-<100}+".format(""))
@@ -137,8 +139,8 @@ class Bank():
 
                 transactionDate = input("Insert date with format (DD/MM/YY): ")
                 print("+{:-<100}+".format(""))
-                transactionNum = int(input("Insert transaction number: "))
-                print("+{:-<100}+".format(""))
+                transactionNum = randint(100000, 999999)
+                print("Your transacion number is: " + str(transactionNum))
                 transactionAmount = int(input("Insert withdraw amount: "))
                 print("+{:-<100}+".format(""))
 
