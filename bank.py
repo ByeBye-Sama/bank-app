@@ -1,6 +1,7 @@
 from random import randint
 from colorama import Fore, Back, Style
 import sqlite3
+import datetime
 import os
 import os.path
 import time
@@ -17,15 +18,16 @@ totalAmount = 0
 transactionAmount = 0
 transactionNum = 0
 newAmount = 0
+now = datetime.datetime.now()
 
 
 class Bank():
 
     def newAccount(self):
 
-        print("+{:-<143}+".format(""))
-        print("|{:^143}|".format("REGISTER ACOUNT FORM"))
-        print("+{:-<143}+".format(""))
+        print("+{:-<100}+".format(""))
+        print('\x1b[6;30;47m' + "|{:^100}|".format("REGISTER ACOUNT FORM")+'\x1b[0m')
+        print("+{:-<100}+".format(""))
 
         accNumber = input("Insert new account number: ")
         email = input("Insert new email: ")
@@ -39,24 +41,24 @@ class Bank():
         db.commit()
         db.close()
 
-        print("+{:-<143}+".format(""))
-        print("|{:^143}|".format("NEW USER"))
-        print("+{:-<143}+".format(""))
-        print('\x1b[6;30;42m' + "|{:^143}|".format("SUCCESS")+'\x1b[0m')
+        print("+{:-<100}+".format(""))
+        print("|{:^100}|".format("NEW USER"))
+        print("+{:-<100}+".format(""))
+        print('\x1b[6;30;42m' + "|{:^100}|".format("SUCCESS")+'\x1b[0m')
 
-        print("+{:-<30}+{:-<50}+{:-<30}+{:-<30}+".format("", "", "", ""))
-        print("|{:^30}|{:^50}|{:^30}|{:^30}|".format(
+        print("+{:-<22}+{:-<31}+{:-<22}+{:-<22}+".format("", "", "", ""))
+        print("|{:^22}|{:^31}|{:^22}|{:^22}|".format(
             "Account Number", "Email", "Bank Code", "Total Amount"))
-        print("+{:-<30}+{:-<50}+{:-<30}+{:-<30}+".format("", "", "", ""))
+        print("+{:-<22}+{:-<31}+{:-<22}+{:-<22}+".format("", "", "", ""))
 
-        print("|{:^30}|{:^50}|{:^30}|{:^30}|".format(
+        print("|{:^22}|{:^31}|{:^22}|{:^22}|".format(
             accNumber, email, bankCode, totalAmount))
-        print("+{:-<30}+{:-<50}+{:-<30}+{:-<30}+".format("", "", "", ""))
+        print("+{:-<22}+{:-<31}+{:-<22}+{:-<22}+".format("", "", "", ""))
 
     def deposit(self):
 
         print("+{:-<100}+".format(""))
-        print("|{:^100}|".format("DEPOSIT FORM"))
+        print('\x1b[6;30;47m' + "|{:^100}|".format("DEPOSIT FORM")+'\x1b[0m')
         print("+{:-<100}+".format(""))
 
         accNumber = input("Insert account number to login: ")
@@ -72,8 +74,8 @@ class Bank():
                 print("+{:-<100}+".format(""))
 
                 transactionType = "Deposit"
-                print("+{:-<100}+".format(""))
-                transactionDate = input("Insert date with format (DD/MM/YY): ")
+                transactionDate = now.strftime('%Y-%m-%d')
+                print("Date: " + str(transactionDate))
                 print("+{:-<100}+".format(""))
                 transactionNum = randint(100000, 999999)
                 print("Your transacion number is: " + str(transactionNum))
@@ -124,7 +126,7 @@ class Bank():
     def withdraw(self):
 
         print("+{:-<100}+".format(""))
-        print("|{:^100}|".format("WITHDRAW FORM"))
+        print('\x1b[6;30;47m' + "|{:^100}|".format("WITHDRAW FORM")+'\x1b[0m')
         print("+{:-<100}+".format(""))
 
         accNumber = input("Insert account number to login: ")
@@ -140,11 +142,12 @@ class Bank():
                 print("+{:-<100}+".format(""))
 
                 transactionType = "Withdraw"
-                print("+{:-<100}+".format(""))
-                transactionDate = input("Insert date with format (DD/MM/YY): ")
+                transactionDate = now.strftime('%Y-%m-%d')
+                print("Date: " + str(transactionDate))
                 print("+{:-<100}+".format(""))
                 transactionNum = randint(100000, 999999)
                 print("Your transacion number is: " + str(transactionNum))
+                print("+{:-<100}+".format(""))
                 transactionAmount = int(input("Insert withdraw amount: "))
                 print("+{:-<100}+".format(""))
 
@@ -207,7 +210,7 @@ class Bank():
     def checkMovements(self):
 
         print("+{:-<100}+".format(""))
-        print("|{:^100}|".format("BANK MOVEMENTS"))
+        print('\x1b[6;30;47m' + "|{:^100}|".format("BANK MOVEMENTS")+'\x1b[0m')
         print("+{:-<100}+".format(""))
 
         accNumber = input("Insert account number to check: ")
@@ -223,7 +226,7 @@ class Bank():
                 print("+{:-<100}+".format(""))
 
                 accountMovement = (
-                    "SELECT transactionNum, transactionType, transactionDate, transactionAmount FROM MONEY WHERE accNumber = ?")
+                    "SELECT transactionNum, transactionType, transactionDate, transactionAmount FROM MONEY WHERE accNumber = ? ORDER BY transactionDate DESC")
                 cursor.execute(accountMovement, [(accNumber)])
                 movements = cursor.fetchall()
 
