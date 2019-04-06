@@ -216,8 +216,13 @@ class Bank():
         accNumber = input("Insert account number to check: ")
         findAcc = ("SELECT * FROM USER WHERE accNumber = ?")
         cursor.execute(findAcc, [(accNumber)])
-
         results = cursor.fetchall()
+
+        accountAmount = ("SELECT totalAmount FROM USER WHERE accNumber = ?")
+        cursor.execute(accountAmount, [(accNumber)])
+        currentAmount = cursor.fetchone()
+        allAmount = currentAmount[0]
+
 
         if results:
             for i in results:
@@ -225,6 +230,7 @@ class Bank():
                 print("|{:^100}|".format('Welcome: ' + i[1]))
                 print("+{:-<100}+".format(""))
 
+               
                 accountMovement = (
                     "SELECT transactionNum, transactionType, transactionDate, transactionAmount FROM MONEY WHERE accNumber = ? ORDER BY transactionDate DESC")
                 cursor.execute(accountMovement, [(accNumber)])
@@ -232,6 +238,9 @@ class Bank():
 
                 print('\x1b[6;30;42m' +
                       "|{:^100}|".format("SUCCESS")+'\x1b[0m')
+                print("+{:-<100}+".format(""))
+                print("|{:^100}|".format("LIFE SAVINGS: " + str(allAmount)))
+                    
 
                 print("+{:-<24}+{:-<24}+{:-<25}+{:-<24}+".format("", "", "", ""))
                 print("|{:^24}|{:^24}|{:^25}|{:^24}|".format(
