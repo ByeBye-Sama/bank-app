@@ -16,7 +16,8 @@ def bankMenu():
     print("+{:-<50}+".format(""))
     print('\x1b[6;30;47m' + "|{:^50}|".format("Bank System")+'\x1b[0m')
     print("+{:-<50}+".format(""))
-    print('\x1b[1;32;40m' + "|{:50}|".format("1. Create a new account")+'\x1b[0m')
+    print('\x1b[1;32;40m' +
+          "|{:50}|".format("1. Create a new account")+'\x1b[0m')
     print("+{:-<50}+".format(""))
     print('\x1b[1;33;40m' + "|{:50}|".format("2. Deposit")+'\x1b[0m')
     print("+{:-<50}+".format(""))
@@ -25,10 +26,11 @@ def bankMenu():
     print('\x1b[1;35;40m' +
           "|{:50}|".format("4. Check your bank movements")+'\x1b[0m')
     print("+{:-<50}+".format(""))
-    
-    time.sleep(2)
+
+    time.sleep(1)
     option = input("Choose one option: ")
     print("+{:-<50}+".format(""))
+    print("")
     time.sleep(2)
     if option == "1":
         Bank.newAccount("")
@@ -60,7 +62,6 @@ def initAll():
         print('\x1b[6;30;43m' +
               "|{:^50}|".format("Thanks for use this program")+'\x1b[0m')
         print("+{:-<50}+".format(""))
-        time.sleep(2)
         exit
 
     else:

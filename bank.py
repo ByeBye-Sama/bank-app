@@ -71,16 +71,18 @@ class Bank():
                 print("|{:^100}|".format('Welcome: ' + i[1]))
                 print("+{:-<100}+".format(""))
 
+                transactionType = "Deposit"
+                print("+{:-<100}+".format(""))
                 transactionDate = input("Insert date with format (DD/MM/YY): ")
                 print("+{:-<100}+".format(""))
-                transactionNum = randint(1000, 9999)
+                transactionNum = randint(100000, 999999)
                 print("Your transacion number is: " + str(transactionNum))
                 print("+{:-<100}+".format(""))
                 transactionAmount = int(input("Insert deposit amount: "))
                 print("+{:-<100}+".format(""))
 
-                newTran = '''INSERT INTO MONEY(accNumber,transactionNum,transactionDate,transactionAmount)
-                    VALUES ('%s', '%s', '%s', '%s') ''' % (accNumber, transactionNum, transactionDate, transactionAmount)
+                newTran = '''INSERT INTO MONEY(accNumber, transactionNum, transactionType, transactionDate, transactionAmount)
+                    VALUES ('%s', '%s', '%s', '%s', '%s') ''' % (accNumber, transactionNum, transactionType, transactionDate, transactionAmount)
 
                 cursor.execute(newTran)
                 db.commit()
@@ -137,6 +139,8 @@ class Bank():
                 print("|{:^100}|".format('Welcome: ' + i[1]))
                 print("+{:-<100}+".format(""))
 
+                transactionType = "Withdraw"
+                print("+{:-<100}+".format(""))
                 transactionDate = input("Insert date with format (DD/MM/YY): ")
                 print("+{:-<100}+".format(""))
                 transactionNum = randint(100000, 999999)
@@ -153,8 +157,8 @@ class Bank():
                 if oldAmount > transactionAmount:
                     newAmount = oldAmount - transactionAmount
 
-                    newTran = '''INSERT INTO MONEY(accNumber, transactionNum,transactionDate,transactionAmount)
-                        VALUES ('%s', '%s', '%s', '%s') ''' % (accNumber, transactionNum, transactionDate, transactionAmount)
+                    newTran = '''INSERT INTO MONEY(accNumber, transactionNum, transactionType ,transactionDate, transactionAmount)
+                        VALUES ('%s', '%s', '%s', '%s', '%s') ''' % (accNumber, transactionNum, transactionType, transactionDate, transactionAmount)
                     cursor.execute(newTran)
                     db.commit()
 
@@ -219,22 +223,23 @@ class Bank():
                 print("+{:-<100}+".format(""))
 
                 accountMovement = (
-                    "SELECT transactionNum, transactionDate, transactionAmount FROM MONEY WHERE accNumber = ?")
+                    "SELECT transactionNum, transactionType, transactionDate, transactionAmount FROM MONEY WHERE accNumber = ?")
                 cursor.execute(accountMovement, [(accNumber)])
                 movements = cursor.fetchall()
 
                 print('\x1b[6;30;42m' +
                       "|{:^100}|".format("SUCCESS")+'\x1b[0m')
 
-                print("+{:-<33}+{:-<32}+{:-<33}+".format("", "", ""))
-                print("|{:^33}|{:^32}|{:^33}|".format(
-                    "Transaction Number", "Transaction Date", "Transaction Amount"))
-                print("+{:-<33}+{:-<32}+{:-<33}+".format("", "", ""))
+                print("+{:-<24}+{:-<24}+{:-<25}+{:-<24}+".format("", "", "", ""))
+                print("|{:^24}|{:^24}|{:^25}|{:^24}|".format(
+                    "Transaction Number", "Transaction Type", "Transaction Date", "Transaction Amount"))
+                print("+{:-<24}+{:-<24}+{:-<25}+{:-<24}+".format("", "", "", ""))
 
-                for transactionNum, transactionDate, transactionAmount in movements:
-                    print("|{:^33}|{:^32}|{:^33}|".format(
-                        transactionNum, transactionDate, transactionAmount))
-                    print("+{:-<33}+{:-<32}+{:-<33}+".format("", "", ""))
+                for transactionNum, transactionType, transactionDate, transactionAmount in movements:
+                    print("|{:^24}|{:^24}|{:^25}|{:^24}|".format(
+                        transactionNum, transactionType, transactionDate, transactionAmount))
+                    print(
+                        "+{:-<24}+{:-<24}+{:-<25}+{:-<24}+".format("", "", "", ""))
 
         else:
             print("+{:-<100}+".format(""))
