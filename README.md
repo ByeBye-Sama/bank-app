@@ -26,7 +26,7 @@ Also you need to have some IDE, just verify that it's compatible with python
 Like Visual Studio Code. Atom, Spyder, etc.
 ```
 
-If you want to edit the db with your own content you'll need a program that can edit ```bank.db```
+If you want to edit the db with your own content you'll need a program that can edit ```.db``` extension
 
 ```
 Like DB Browser
@@ -35,6 +35,8 @@ Like DB Browser
 ### Use
 
 Open ```menuBank.py``` in your IDE and run this Python File in your Terminal
+
+The db is ```bank.db```, you can edit it if you want
 
 ## Built with
 
